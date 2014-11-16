@@ -38,14 +38,12 @@ void *mail_proc(void* param) {
 			cout << "Request stream: " << buf;
 			respond(client_sockfd, buf);
 		} else {
-			cout
-					<< "S: no data received from client. The server exit permanently.\n";
+			cout << "S: no data received from client. The server exit permanently.\n";
 			break;
 		}
-		cout << "S:[" << client_sockfd << "] socket closed by client." << endl;
-		cout
-				<< "============================================================\n\n";
 	}
+	cout << "S:[" << client_sockfd << "] socket closed by client." << endl;
+	cout << "============================================================\n\n";
 	return NULL;
 }
 
@@ -69,6 +67,7 @@ void respond(int client_sockfd, char* request) {
 		char *p;
 		p = strchr(request, ' ');
 		strcpy(rcpt_pass, p + 1);
+		cout << "DEBUG:" << rcpt_user << " " << rcpt_pass << endl;
 		if (check_name_pass(rcpt_user, rcpt_pass)) {
 			send_data(client_sockfd, reply_code[2]);
 		}

@@ -58,9 +58,10 @@ int check_name_pass(char* name, char* pass) {
 				fclose(fp);
 				return 1;
 			} else {
-				return 0;
+				break;
 			}
 		}
 	}
+	fclose(fp);
 	return 0;
 }

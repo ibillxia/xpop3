@@ -65,7 +65,7 @@ int main() {
 
 	//accept requests from clients,loop and wait.
 	while (1) {
-		cout << "-XPOP3 mail server by XBC started..." << endl;
+		cout << "-XPOP3 mail server by [Bill Xia](ibillxia@gmail.com) started..." << endl;
 		sin_size = sizeof(client_addr);
 		if ((client_sockfd = accept(server_sockfd,
 				(struct sockaddr *) &client_addr, &sin_size)) == -1) {
@@ -81,6 +81,7 @@ int main() {
 		pthread_join(id, NULL);
 
 		close(client_sockfd);
+		mail_stat = 0;
 	}
 	return 0;
 }

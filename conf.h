@@ -26,7 +26,7 @@
 #define MAX_CLIENTS 32
 #define BUF_SIZE 1024
 
-const char data_dir[] = "/home/user/data/";
+const char data_dir[] = "/home/bill/data/";
 const char userinfo[] = "userinfo";
 const char userstat[] = "userstat";
 
