@@ -14,18 +14,20 @@
  */
 
 /*
- * This is a header file, include the configurations and interfaces of the whole project.
+ * This is a header file, mainly about mailing events processing.
  * 
  */
 
-#ifndef __XPOP3_H
-#define __XPOP3_H
+#ifndef __XPOP3_MODULE_MAIL_H
+#define __XPOP3_MODULE_MAIL_H
 
 #include "common.h"
-#include "module_mail.h"
-#include "module_user.h"
 
-#endif /* #ifndef __XPOP3_H */
+void *mail_proc(void* param);
+void respond(int client_sockfd, char* request);
+void send_data(int sockfd, const char* data);
+
+#endif /* #ifndef __XPOP3_MODULE_MAIL_H */
 
 // Local Variables:
 // mode: C++

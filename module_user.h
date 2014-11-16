@@ -14,18 +14,19 @@
  */
 
 /*
- * This is a header file, include the configurations and interfaces of the whole project.
+ * This is the use management module, includes user check and authentication.
  * 
  */
 
-#ifndef __XPOP3_H
-#define __XPOP3_H
+#ifndef __XPOP3_MODULE_USER_H
+#define __XPOP3_MODULE_USER_H
 
 #include "common.h"
-#include "module_mail.h"
-#include "module_user.h"
 
-#endif /* #ifndef __XPOP3_H */
+int check_user(char* username);
+int check_name_pass(char* name, char* pass);
+
+#endif /* #ifndef __XPOP3_MODULE_USER_H */
 
 // Local Variables:
 // mode: C++

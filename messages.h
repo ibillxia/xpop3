@@ -13,19 +13,31 @@
  * or substantial portions of the Software.
  */
 
-/*
- * This is a header file, include the configurations and interfaces of the whole project.
- * 
- */
+ /*
+  * This is a header file, include the main messages respond to the client.
+  * 
+  */
 
-#ifndef __XPOP3_H
-#define __XPOP3_H
+#ifndef __XPOP3_MESSAGES_H
+#define __XPOP3_MESSAGES_H
 
-#include "common.h"
-#include "module_mail.h"
-#include "module_user.h"
 
-#endif /* #ifndef __XPOP3_H */
+const char reply_code[][50]={
+		{" \r\n"},  //0
+		{"+OK Welcome\r\n"},   //1
+		{"+OK\r\n"},  //2
+		{"-ERR bad command\r\n"},   //3
+		{"+OK Ready\r\n"},  //4
+		{"+OK Bye\r\n"},  //5
+		{"+OK OK\r\n"},  //6
+		{"+OK User not local;\r\n"},  //7
+		{"+OK Ready\r\n"},  //8
+		{"+OK Bye\r\n"},  //9
+		{"+OK OK\r\n"},  //10
+		{"+OK User not local;\r\n"},  //11
+};
+
+#endif  /* #ifndef __XPOP3_MESSAGES_H */
 
 // Local Variables:
 // mode: C++

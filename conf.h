@@ -13,19 +13,28 @@
  * or substantial portions of the Software.
  */
 
-/*
- * This is a header file, include the configurations and interfaces of the whole project.
- * 
- */
+ /*
+  * This is a header file for configurations in the XPOP3 project.
+  * 
+  */
 
-#ifndef __XPOP3_H
-#define __XPOP3_H
+#ifndef __XPOP3_CONF_H
+#define __XPOP3_CONF_H
 
-#include "common.h"
-#include "module_mail.h"
-#include "module_user.h"
+// Mail Server configurations
+#define PORT 110    // use port 110, need root privilege
+#define MAX_CLIENTS 32
+#define BUF_SIZE 1024
 
-#endif /* #ifndef __XPOP3_H */
+const char data_dir[] = "/home/user/data/";
+const char userinfo[] = "userinfo";
+const char userstat[] = "userstat";
+
+extern int mail_stat;
+extern char rcpt_user[50];
+extern char rcpt_pass[50];
+
+#endif  /* #ifndef __XPOP3_CONF_H */
 
 // Local Variables:
 // mode: C++

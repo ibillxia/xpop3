@@ -13,19 +13,39 @@
  * or substantial portions of the Software.
  */
 
-/*
- * This is a header file, include the configurations and interfaces of the whole project.
- * 
- */
+ /*
+  * This is a header file, include the commonly used items.
+  * 
+  */
 
-#ifndef __XPOP3_H
-#define __XPOP3_H
+#ifndef __XPOP3_COMMON_H
+#define __XPOP3_COMMON_H
 
-#include "common.h"
-#include "module_mail.h"
-#include "module_user.h"
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <fcntl.h>
 
-#endif /* #ifndef __XPOP3_H */
+#include <unistd.h>
+#include <pthread.h>
+#include <signal.h>
+#include <netdb.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <sys/socket.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <sys/ioctl.h>
+#include <net/if.h>
+#include <dirent.h>
+
+using namespace std;
+
+#include "conf.h"
+#include "messages.h"
+
+#endif   /* #ifndef __XPOP3_COMMON_H */
 
 // Local Variables:
 // mode: C++

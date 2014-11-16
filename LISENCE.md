@@ -1,10 +1,10 @@
-####################################################
-#     xpop3 - A simple realization of pop3 protocol
-#
-# Author: Bill Xia
-# Blog: http://ibillxia.github.com
-# Email: ibillxia@gmail.com
-####################################################
+# xpop3 
+### A simple realization of pop3 protocol
+
+Author: Bill Xia
+Blog: http://ibillxia.github.io
+Email: ibillxia@gmail.com
+
 
 The MIT License (MIT)
 Copyright (C) 2011 Bill Xia (ibillxia@gmail.com) 

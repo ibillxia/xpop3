@@ -1,19 +1,30 @@
-/////////////////////////////////////////////////////////////////////////////
-//
-// pop3.cpp
-//
-// POP3 start-up code
-//
-/////////////////////////////////////////////////////////////////////////////
+/*
+ * Copyright (C) 2011-2014
+ * Bill Xia
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+ * of the Software, and to permit persons to whom the Software is furnished to do so,
+ * subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all copies
+ * or substantial portions of the Software.
+ */
+
+/*
+ * The main function entrance for the whole project. 
+ *
+ */
 
 #include "xpop3.h"
 
+int mail_stat = 0;
+char rcpt_user[50] = "";
+char rcpt_pass[50] = "";
+
 int quit(int arg);
-void *mail_proc(void* param);
-void respond(int client_sockfd, char* request);
-void send_data(int sockfd, const char* data);
-int check_user(char* username);
-int check_name_pass(char* name, char* pass);
 
 int main() {
 	//signal(SIGINT, (void*) quit); //go to MiniWebQuit when Ctrl+C key pressed.
@@ -78,140 +89,4 @@ int quit(int arg) {
 	if (arg)
 		printf("\nS:Caught signal (%d). Mail server shutting down...\n\n", arg);
 	return 1;
-}
-
-void *mail_proc(void* param) {
-	int client_sockfd, len;
-	char buf[BUF_SIZE];
-
-	memset(buf, 0, sizeof(buf));
-	client_sockfd = *(int*) param;
-
-	send_data(client_sockfd, reply_code[1]); //send +OK
-	mail_stat = 1;
-
-	while (1) {
-		memset(buf, 0, sizeof(buf));
-		len = recv(client_sockfd, buf, sizeof(buf), 0);
-		if (len > 0) {
-			cout << "Request stream: " << buf;
-			respond(client_sockfd, buf);
-		} else {
-			cout
-					<< "S: no data received from client. The server exit permanently.\n";
-			break;
-		}
-		cout << "S:[" << client_sockfd << "] socket closed by client." << endl;
-		cout
-				<< "============================================================\n\n";
-	}
-	return NULL;
-}
-
-void respond(int client_sockfd, char* request) {
-	char output[1024];
-	memset(output, 0, sizeof(output));
-
-	//pop3
-	if (strncmp(request, "USER", 4) == 0) {
-		char *pa,*pb;
-		pa = strchr(request, ' ');
-		pb = strchr(request,'\r');
-		strncpy(rcpt_user, pa + 1, pb-pa - 1);
-		cout << "DEBUG:" << rcpt_user << endl;
-		if (check_user(rcpt_user)) {
-			send_data(client_sockfd, reply_code[2]);
-		} else {
-			send_data(client_sockfd, reply_code[3]);
-		}
-	} else if (strncmp(request, "PASS", 4) == 0) {
-		char *p;
-		p = strchr(request, ' ');
-		strcpy(rcpt_pass, p + 1);
-		if (check_name_pass(rcpt_user, rcpt_pass)) {
-			send_data(client_sockfd, reply_code[2]);
-		}
-	} else if (strncmp(request, "APOP", 4) == 0) {
-		send_data(client_sockfd, reply_code[2]);
-	} else if (strncmp(request, "AUTH", 4) == 0) {
-		send_data(client_sockfd, reply_code[2]);
-	} else if (strncmp(request, "CAPA", 4) == 0) {
-		send_data(client_sockfd, reply_code[2]);
-	} else if (strncmp(request, "DELE", 4) == 0) {
-		send_data(client_sockfd, reply_code[2]);
-	} else if (strncmp(request, "LIST", 4) == 0) {
-		send_data(client_sockfd, reply_code[2]);
-	} else if (strncmp(request, "NOOP", 4) == 0) {
-		send_data(client_sockfd, reply_code[2]);
-	} else if (strncmp(request, "QUIT", 4) == 0) {
-		send_data(client_sockfd, reply_code[2]);
-		close(client_sockfd);
-	} else if (strncmp(request, "RETR", 4) == 0) {
-		send_data(client_sockfd, reply_code[2]);
-	} else if (strncmp(request, "RSET", 4) == 0) {
-		send_data(client_sockfd, reply_code[2]);
-	} else if (strncmp(request, "STAT", 4) == 0) {
-		send_data(client_sockfd, reply_code[2]);
-	} else if (strncmp(request, "STLS", 4) == 0) {
-		send_data(client_sockfd, reply_code[2]);
-	} else if (strncmp(request, "TOP", 4) == 0) {
-		send_data(client_sockfd, reply_code[2]);
-	} else if (strncmp(request, "UIDL", 4) == 0) {
-		send_data(client_sockfd, reply_code[2]);
-	} else if (strncmp(request, "XTND", 4) == 0) {
-		send_data(client_sockfd, reply_code[2]);
-	} else {
-		send_data(client_sockfd, reply_code[3]);
-	}
-}
-
-void send_data(int sockfd, const char* data) {
-	if (data != NULL) {
-		send(sockfd, data, strlen(data), 0);
-		cout << "Reply stream: " << data;
-	}
-}
-
-int check_user(char* username) {
-	FILE* fp;
-	char file[80] = "";
-	char data[60];
-
-	strcpy(file, data_dir);
-	strcat(file, userinfo);
-
-	fp = fopen(file, "r");
-	while (fread(data, 1, sizeof(data), fp) > 0) {
-		if (strncmp(username, data, strlen(username)) == 0)
-			return 1;
-	}
-	return 0;
-}
-
-int check_name_pass(char* name, char* pass) {
-	FILE* fp;
-	char file[80], data[60];
-
-	strcpy(file, data_dir);
-	strcat(file, userinfo);
-	fp = fopen(file, "r");
-	while (fgets(data, sizeof(data), fp) > 0) {
-		if (strncmp(data, name, strlen(name)) == 0) {
-			char *p;
-			p = strchr(data, ' ');
-			if (strncmp(p + 1, pass, strlen(pass)) == 0) {
-				fclose(fp);
-				strcpy(file, data_dir);
-				strcat(file, userstat);
-				fp = fopen(file, "w+");
-				strcat(name, " on");
-				fwrite(name, 1, strlen(name), fp);
-				fclose(fp);
-				return 1;
-			} else {
-				return 0;
-			}
-		}
-	}
-	return 0;
 }
